@@ -30,7 +30,7 @@ export default function Purchases() {
         .from("purchase_orders")
         .select("*, suppliers(name), branches(name), purchase_items(*, products(name))")
         .order("created_at", { ascending: false }),
-      supabase.from("suppliers").select("id, name"),
+      supabase.from("suppliers").select("id, name, balance"),
       supabase.from("branches").select("id, name"),
       supabase.from("products").select("id, name, purchase_price"),
     ]);
@@ -113,10 +113,24 @@ export default function Purchases() {
 
     const { error: itemsError } = await supabase.from("purchase_items").insert(itemsPayload);
 
+    if (itemsError) {
+      setSaving(false);
+      setError(itemsError.message);
+      return;
+    }
+
+    // Creating an order means we now owe the supplier for it — increase
+    // their payable balance right away (receiving stock is a separate step).
+    const supplier = suppliers.find((s) => s.id === supplierId);
+    const { error: balanceError } = await supabase
+      .from("suppliers")
+      .update({ balance: (Number(supplier?.balance) || 0) + total })
+      .eq("id", supplierId);
+
     setSaving(false);
 
-    if (itemsError) {
-      setError(itemsError.message);
+    if (balanceError) {
+      setError(balanceError.message);
       return;
     }
 

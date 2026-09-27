@@ -756,6 +756,27 @@ h2 {
   padding: 0;
 }
 
+.row-statement-link {
+  color: var(--teal-700);
+  font-size: 12.5px;
+  text-decoration: none;
+  margin-right: 14px;
+}
+
+.row-statement-link:hover {
+  text-decoration: underline;
+}
+
+.balance-hero {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 32px;
+  color: var(--teal-900);
+}
+
+.balance-hero.negative {
+  color: #a5312a;
+}
+
 @media (max-width: 860px) {
   .shell {
     flex-direction: column;

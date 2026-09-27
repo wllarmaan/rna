@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import CrudPage from "../components/CrudPage.jsx";
 
 export default function Customers() {
@@ -7,6 +8,11 @@ export default function Customers() {
       title="Customers"
       subtitle="Macaamiisha, deyntooda iyo xaddiga credit-ka la siin karo."
       table="customers"
+      rowActions={(row) => (
+        <Link to={`/customers/${row.id}`} className="row-statement-link">
+          Statement
+        </Link>
+      )}
       fields={[
         { key: "name", label: "Magaca", type: "text", required: true },
         { key: "phone", label: "Telefoon", type: "text" },

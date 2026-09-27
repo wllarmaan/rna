@@ -190,6 +190,7 @@ export default function Sales() {
         const { error: paymentError } = await supabase.from("payments").insert({
           organization_id: profile.organization_id,
           sale_id: sale.id,
+          customer_id: customerId || null,
           amount: total,
           method: paymentMethod,
         });

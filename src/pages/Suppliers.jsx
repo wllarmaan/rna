@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import CrudPage from "../components/CrudPage.jsx";
 
 export default function Suppliers() {
@@ -7,6 +8,11 @@ export default function Suppliers() {
       title="Suppliers"
       subtitle="Alaab-qeybiyeyaasha aad ka iibsato, iyo lacagta aad ku leedahay (payables)."
       table="suppliers"
+      rowActions={(row) => (
+        <Link to={`/suppliers/${row.id}`} className="row-statement-link">
+          Statement
+        </Link>
+      )}
       fields={[
         { key: "name", label: "Magaca supplier-ka", type: "text", required: true },
         { key: "phone", label: "Telefoon", type: "text" },

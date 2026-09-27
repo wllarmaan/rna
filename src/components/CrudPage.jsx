@@ -1,415 +1,185 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient.js";
 import { useAuth } from "../lib/AuthContext.jsx";
-import { uploadMedia, deleteMedia } from "../lib/storage.js";
+
+function initialForm(fields) {
+  const f = {};
+  fields.forEach((field) => {
+    f[field.key] = field.type === "checkbox" ? false : "";
+  });
+  return f;
+}
+
+function FieldInput({ field, value, onChange, options }) {
+  if (field.type === "select") {
+    return (
+      <select value={value} onChange={(e) => onChange(e.target.value)} required={field.required}>
+        <option value="">{field.placeholder || `— ${field.label} —`}</option>
+        {(options || []).map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    );
+  }
+  if (field.type === "checkbox") {
+    return (
+      <label className="checkbox-field">
+        <input type="checkbox" checked={!!value} onChange={(e) => onChange(e.target.checked)} />
+        {field.label}
+      </label>
+    );
+  }
+  return (
+    <input
+      type={field.type || "text"}
+      step={field.step}
+      placeholder={field.label}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      required={field.required}
+    />
+  );
+}
 
 /**
- * Bog CRUD guud oo si toos ah ugu xiran jadwal Supabase ah.
+ * Generic list + add-form + delete page wired directly to one Supabase table.
  *
- * config = {
- *   table, title, eyebrow, description,
- *   orderBy: "created_at",
- *   fields: [{ name, label, type, required, options, relation:{table,labelField}, inTable, step }],
- *     type: text | textarea | number | date | time | select | checkbox | relation
- *   image: { urlCol, pathCol, folder, label }      // ikhtiyaari — sawir / fayl
- *   extraInsert: (profile) => ({ ... })             // ikhtiyaari
- * }
+ * fields:  what the "add" form collects. type: text | number | select | checkbox | time
+ *          select fields can use a static `options` array or a dynamic
+ *          `optionsTable` (+ optional `optionsLabelKey`, default "name").
+ * columns: what the table below shows. optional `format(value)` per column.
  */
-export default function CrudPage({ config }) {
+export default function CrudPage({ title, subtitle, table, fields, columns, rowActions }) {
   const { profile } = useAuth();
-  const orgId = profile?.organization_id;
-  const { table, fields, image } = config;
-
-  const emptyForm = useMemo(() => {
-    const f = {};
-    for (const fld of fields) {
-      f[fld.name] = fld.type === "checkbox" ? !!fld.default : fld.default ?? "";
-    }
-    return f;
-  }, [fields]);
-
   const [rows, setRows] = useState([]);
-  const [relations, setRelations] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [form, setForm] = useState(emptyForm);
-  const [editing, setEditing] = useState(null); // row la beddelayo
-  const [file, setFile] = useState(null);
-  const [preview, setPreview] = useState("");
-  const [removeImage, setRemoveImage] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [query, setQuery] = useState("");
-
-  const relationFields = fields.filter((f) => f.type === "relation");
+  const [form, setForm] = useState(() => initialForm(fields));
+  const [dynamicOptions, setDynamicOptions] = useState({});
 
   useEffect(() => {
-    setForm(emptyForm);
-    setEditing(null);
-    resetFile();
-    loadAll();
+    load();
+    loadDynamicOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [table]);
 
-  useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
-
-  function resetFile() {
-    setFile(null);
-    setPreview("");
-    setRemoveImage(false);
-  }
-
-  async function loadAll() {
+  async function load() {
     setLoading(true);
-    setError("");
     const { data, error } = await supabase
       .from(table)
       .select("*")
-      .order(config.orderBy || "created_at", { ascending: false });
+      .order("created_at", { ascending: false });
     if (error) setError(error.message);
-    else setRows(data || []);
-
-    const rel = {};
-    for (const f of relationFields) {
-      const { data: rdata, error: rerr } = await supabase
-        .from(f.relation.table)
-        .select(`id, ${f.relation.labelField}`)
-        .order(f.relation.labelField);
-      if (rerr) setError(rerr.message);
-      rel[f.name] = rdata || [];
-    }
-    setRelations(rel);
+    else setRows(data);
     setLoading(false);
   }
 
-  function toPayload() {
-    const payload = {};
-    for (const f of fields) {
-      let v = form[f.name];
-      if (f.type === "checkbox") v = !!v;
-      else if (f.type === "number") v = v === "" || v === null ? (f.nullable ? null : 0) : Number(v);
-      else if (typeof v === "string") {
-        v = v.trim();
-        if (v === "") v = null;
+  async function loadDynamicOptions() {
+    const opts = {};
+    for (const field of fields) {
+      if (field.type === "select" && field.optionsTable) {
+        const labelKey = field.optionsLabelKey || "name";
+        const { data, error } = await supabase.from(field.optionsTable).select(`id, ${labelKey}`);
+        if (!error) {
+          opts[field.key] = data.map((row) => ({ value: row.id, label: row[labelKey] }));
+        }
       }
-      payload[f.name] = v;
     }
-    return payload;
+    setDynamicOptions(opts);
   }
 
-  async function handleSubmit(e) {
+  function updateField(key, value) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  async function handleAdd(e) {
     e.preventDefault();
-    if (!orgId) {
-      setError("Profile-kaaga lama xirin organization.");
+    if (!profile?.organization_id) {
+      setError("Profile-kaaga wali lama xirin organization.");
       return;
     }
     setSaving(true);
     setError("");
 
-    try {
-      const payload = toPayload();
-      let uploaded = null;
+    const payload = { organization_id: profile.organization_id };
+    fields.forEach((field) => {
+      let value = form[field.key];
+      if (field.type === "number") value = value === "" ? null : Number(value);
+      if (field.type === "checkbox") value = !!value;
+      if (value === "") value = null;
+      payload[field.key] = value;
+    });
 
-      if (image && file) {
-        uploaded = await uploadMedia(file, orgId, image.folder);
-        payload[image.urlCol] = uploaded.url;
-        payload[image.pathCol] = uploaded.path;
-      } else if (image && removeImage) {
-        payload[image.urlCol] = null;
-        payload[image.pathCol] = null;
-      }
-
-      if (editing) {
-        const { error } = await supabase.from(table).update(payload).eq("id", editing.id);
-        if (error) {
-          if (uploaded) await deleteMedia(uploaded.path);
-          throw error;
-        }
-        // sawirkii hore tirtir haddii la beddelay / la saaray
-        if (image && (uploaded || removeImage) && editing[image.pathCol]) {
-          await deleteMedia(editing[image.pathCol]);
-        }
-      } else {
-        const insert = {
-          ...payload,
-          organization_id: orgId,
-          ...(config.extraInsert ? config.extraInsert(profile) : {}),
-        };
-        const { error } = await supabase.from(table).insert(insert);
-        if (error) {
-          if (uploaded) await deleteMedia(uploaded.path);
-          throw error;
-        }
-      }
-
-      cancelEdit();
-      await loadAll();
-    } catch (err) {
-      setError(err.message || String(err));
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  function startEdit(row) {
-    const f = {};
-    for (const fld of fields) {
-      const v = row[fld.name];
-      if (fld.type === "checkbox") f[fld.name] = !!v;
-      else if (fld.type === "time" && v) f[fld.name] = String(v).slice(0, 5);
-      else f[fld.name] = v ?? "";
-    }
-    setForm(f);
-    setEditing(row);
-    resetFile();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function cancelEdit() {
-    setForm(emptyForm);
-    setEditing(null);
-    resetFile();
-  }
-
-  async function handleDelete(row) {
-    if (!window.confirm("Ma hubtaa inaad tirtirto?")) return;
-    setError("");
-    const { error } = await supabase.from(table).delete().eq("id", row.id);
+    const { error } = await supabase.from(table).insert(payload);
+    setSaving(false);
     if (error) {
       setError(error.message);
       return;
     }
-    if (image && row[image.pathCol]) await deleteMedia(row[image.pathCol]);
-    setRows((prev) => prev.filter((r) => r.id !== row.id));
-    if (editing?.id === row.id) cancelEdit();
+    setForm(initialForm(fields));
+    load();
   }
 
-  function relationLabel(fieldName, id) {
-    const f = relationFields.find((x) => x.name === fieldName);
-    const item = (relations[fieldName] || []).find((r) => r.id === id);
-    return item ? item[f.relation.labelField] : "—";
-  }
-
-  function display(row, f) {
-    const v = row[f.name];
-    if (f.type === "relation") return v ? relationLabel(f.name, v) : "—";
-    if (f.type === "checkbox") return v ? "Haa" : "Maya";
-    if (f.type === "number") return v === null || v === undefined ? "—" : Number(v).toLocaleString();
-    if (f.type === "select") return f.options.find((o) => o.value === v)?.label ?? v ?? "—";
-    if (f.type === "time" && v) return String(v).slice(0, 5);
-    return v === null || v === undefined || v === "" ? "—" : String(v);
-  }
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return rows;
-    return rows.filter((r) =>
-      fields.some((f) => String(r[f.name] ?? "").toLowerCase().includes(q))
-    );
-  }, [rows, query, fields]);
-
-  const tableFields = fields.filter((f) => f.inTable !== false);
-  const currentImage = editing && image && !removeImage ? editing[image.urlCol] : "";
-
-  function renderInput(f) {
-    const common = {
-      id: `f-${f.name}`,
-      value: form[f.name] ?? "",
-      onChange: (e) => setForm({ ...form, [f.name]: e.target.value }),
-      required: f.required,
-    };
-    switch (f.type) {
-      case "textarea":
-        return <textarea rows={3} {...common} />;
-      case "number":
-        return <input type="number" step={f.step || "0.01"} {...common} />;
-      case "date":
-        return <input type="date" {...common} />;
-      case "time":
-        return <input type="time" {...common} />;
-      case "select":
-        return (
-          <select {...common}>
-            {!f.required && <option value="">—</option>}
-            {f.options.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        );
-      case "relation":
-        return (
-          <select {...common}>
-            <option value="">— dooro —</option>
-            {(relations[f.name] || [])
-              .filter((r) => !(editing && f.relation.table === table && r.id === editing.id))
-              .map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r[f.relation.labelField]}
-                </option>
-              ))}
-          </select>
-        );
-      case "checkbox":
-        return (
-          <input
-            id={`f-${f.name}`}
-            type="checkbox"
-            checked={!!form[f.name]}
-            onChange={(e) => setForm({ ...form, [f.name]: e.target.checked })}
-          />
-        );
-      default:
-        return <input type="text" {...common} />;
-    }
+  async function handleDelete(id) {
+    const { error } = await supabase.from(table).delete().eq("id", id);
+    if (error) setError(error.message);
+    else setRows((prev) => prev.filter((r) => r.id !== id));
   }
 
   return (
-    <div className="page page-wide">
+    <div className="page">
       <header className="page-header">
-        <p className="eyebrow-plain">{config.eyebrow || "Live data · Supabase"}</p>
-        <h1>{config.title}</h1>
-        {config.description && <p className="lede">{config.description}</p>}
+        <p className="eyebrow-plain">Live data · Supabase</p>
+        <h1>{title}</h1>
+        {subtitle && <p className="lede">{subtitle}</p>}
       </header>
 
-      <form className="crud-form" onSubmit={handleSubmit}>
-        <div className="crud-form-title">
-          {editing ? "Wax ka beddel" : "Ku dar cusub"}
-        </div>
-
-        <div className="crud-grid">
-          {fields.map((f) => (
-            <label
-              key={f.name}
-              htmlFor={`f-${f.name}`}
-              className={
-                "crud-field" +
-                (f.type === "checkbox" ? " crud-field-check" : "") +
-                (f.type === "textarea" ? " crud-field-wide" : "")
-              }
-            >
-              <span>
-                {f.label}
-                {f.required ? " *" : ""}
-              </span>
-              {renderInput(f)}
-            </label>
-          ))}
-
-          {image && (
-            <div className="crud-field crud-field-wide">
-              <span>{image.label || "Sawir"}</span>
-              <div className="crud-image">
-                {preview || currentImage ? (
-                  (file ? file.type === "application/pdf" : currentImage.toLowerCase().endsWith(".pdf")) ? (
-                    <a href={preview || currentImage} target="_blank" rel="noreferrer" className="thumb-lg thumb-empty">
-                      PDF — fur
-                    </a>
-                  ) : (
-                    <img src={preview || currentImage} alt="" className="thumb-lg" />
-                  )
-                ) : (
-                  <div className="thumb-lg thumb-empty">Sawir ma jiro</div>
-                )}
-                <div className="crud-image-actions">
-                  <input
-                    type="file"
-                    accept={image.accept || "image/*"}
-                    onChange={(e) => {
-                      setFile(e.target.files?.[0] || null);
-                      setRemoveImage(false);
-                    }}
-                  />
-                  {editing && editing[image.urlCol] && !file && (
-                    <label className="crud-remove">
-                      <input
-                        type="checkbox"
-                        checked={removeImage}
-                        onChange={(e) => setRemoveImage(e.target.checked)}
-                      />
-                      Ka saar sawirka
-                    </label>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div className="crud-actions">
-          <button type="submit" className="btn-primary" disabled={saving}>
-            {saving ? "Kaydinaya…" : editing ? "Kaydi isbeddelka" : "Ku dar"}
-          </button>
-          {editing && (
-            <button type="button" className="btn-ghost" onClick={cancelEdit}>
-              Jooji
-            </button>
-          )}
-        </div>
+      <form className="product-form" onSubmit={handleAdd}>
+        {fields.map((field) => (
+          <FieldInput
+            key={field.key}
+            field={field}
+            value={form[field.key]}
+            onChange={(v) => updateField(field.key, v)}
+            options={dynamicOptions[field.key] || field.options}
+          />
+        ))}
+        <button type="submit" disabled={saving}>
+          {saving ? "…" : "Ku dar"}
+        </button>
       </form>
 
-      {error && <p className="auth-error crud-error">{error}</p>}
-
-      <div className="crud-toolbar">
-        <input
-          className="crud-search"
-          type="text"
-          placeholder="Raadi…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <span className="crud-count">{filtered.length} row</span>
-      </div>
+      {error && <p className="auth-error">{error}</p>}
 
       {loading ? (
         <p className="lede">Soo dejinaya…</p>
-      ) : filtered.length === 0 ? (
-        <p className="lede">Wali xog lama gelin.</p>
+      ) : rows.length === 0 ? (
+        <p className="lede">Wali xog lama gelin. Isticmaal foomka kore.</p>
       ) : (
-        <div className="table-scroll">
+        <div style={{ overflowX: "auto" }}>
           <table className="data-table">
             <thead>
               <tr>
-                {image && <th></th>}
-                {tableFields.map((f) => (
-                  <th key={f.name}>{f.label}</th>
+                {columns.map((c) => (
+                  <th key={c.key}>{c.label}</th>
                 ))}
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {filtered.map((row) => (
-                <tr key={row.id} className={editing?.id === row.id ? "row-editing" : ""}>
-                  {image && (
-                    <td>
-                      {row[image.urlCol] ? (
-                        row[image.urlCol].toLowerCase().endsWith(".pdf") ? (
-                          <a href={row[image.urlCol]} target="_blank" rel="noreferrer">
-                            PDF
-                          </a>
-                        ) : (
-                          <a href={row[image.urlCol]} target="_blank" rel="noreferrer">
-                            <img src={row[image.urlCol]} alt="" className="thumb" />
-                          </a>
-                        )
-                      ) : (
-                        <div className="thumb thumb-empty" />
-                      )}
+              {rows.map((row) => (
+                <tr key={row.id}>
+                  {columns.map((c) => (
+                    <td key={c.key}>
+                      {c.format ? c.format(row[c.key], row) : row[c.key] ?? "—"}
                     </td>
-                  )}
-                  {tableFields.map((f) => (
-                    <td key={f.name}>{display(row, f)}</td>
                   ))}
-                  <td className="row-actions">
-                    <button className="row-edit" onClick={() => startEdit(row)}>
-                      Beddel
-                    </button>
-                    <button className="row-delete" onClick={() => handleDelete(row)}>
+                  <td>
+                    {rowActions && rowActions(row)}
+                    <button className="row-delete" onClick={() => handleDelete(row.id)}>
                       Tirtir
                     </button>
                   </td>
