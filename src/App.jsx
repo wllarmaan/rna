@@ -2,14 +2,22 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./lib/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import RequireOrganization from "./components/RequireOrganization.jsx";
 import Layout from "./components/Layout.jsx";
-import CrudPage from "./components/CrudPage.jsx";
+import Home from "./pages/Home.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ModuleDetail from "./pages/ModuleDetail.jsx";
 import Products from "./pages/Products.jsx";
-import Settings from "./pages/Settings.jsx";
+import Purchases from "./pages/Purchases.jsx";
+import Sales from "./pages/Sales.jsx";
+import Inventory from "./pages/Inventory.jsx";
+import Categories from "./pages/Categories.jsx";
+import Customers from "./pages/Customers.jsx";
+import Suppliers from "./pages/Suppliers.jsx";
+import Branches from "./pages/Branches.jsx";
+import Expenses from "./pages/Expenses.jsx";
 import Login from "./pages/Login.jsx";
-import { tableConfigs, tableNavOrder } from "./data/tables.js";
+import Onboarding from "./pages/Onboarding.jsx";
 
 export default function App() {
   return (
@@ -17,26 +25,35 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
+          path="/onboarding"
+          element={
+            <ProtectedRoute>
+              <Onboarding />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/"
           element={
             <ProtectedRoute>
-              <Layout />
+              <RequireOrganization>
+                <Layout />
+              </RequireOrganization>
             </ProtectedRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          <Route index element={<Home />} />
+          <Route path="spec" element={<Dashboard />} />
           <Route path="module/:id" element={<ModuleDetail />} />
           <Route path="products" element={<Products />} />
-          {tableNavOrder
-            .filter((key) => key !== "products")
-            .map((key) => (
-              <Route
-                key={key}
-                path={tableConfigs[key].path}
-                element={<CrudPage key={key} config={tableConfigs[key]} />}
-              />
-            ))}
-          <Route path="settings" element={<Settings />} />
+          <Route path="purchases" element={<Purchases />} />
+          <Route path="sales" element={<Sales />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="customers" element={<Customers />} />
+          <Route path="suppliers" element={<Suppliers />} />
+          <Route path="branches" element={<Branches />} />
+          <Route path="expenses" element={<Expenses />} />
         </Route>
       </Routes>
     </AuthProvider>

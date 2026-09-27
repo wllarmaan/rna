@@ -447,7 +447,8 @@ h2 {
   color: var(--ink-soft);
 }
 
-.auth-field input {
+.auth-field input,
+.auth-field select {
   padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -456,7 +457,8 @@ h2 {
   background: #fff;
 }
 
-.auth-field input:focus {
+.auth-field input:focus,
+.auth-field select:focus {
   outline: none;
   border-color: var(--teal-700);
 }
@@ -507,12 +509,207 @@ h2 {
   border-bottom: 1px solid var(--line);
 }
 
-.product-form input {
+.product-form input,
+.product-form select {
   padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-size: 13.5px;
   flex: 1 1 160px;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  flex: 1 1 160px;
+}
+
+.checkbox-field input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--teal-700);
+  flex: none;
+}
+
+/* ---------- Purchases page ---------- */
+
+.purchase-form {
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.purchase-form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.purchase-form-row select {
+  flex: 1;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 13.5px;
+}
+
+.purchase-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.purchase-line {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.purchase-line select,
+.purchase-line input {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 13.5px;
+}
+
+.purchase-line select {
+  flex: 2;
+}
+
+.purchase-line input {
+  flex: 1;
+}
+
+.stock-hint {
+  font-size: 12px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.add-line-btn {
+  align-self: flex-start;
+  background: none;
+  border: 1px dashed var(--line);
+  color: var(--ink-soft);
+  padding: 7px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.add-line-btn:hover {
+  border-color: var(--teal-700);
+  color: var(--teal-700);
+}
+
+.purchase-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.purchase-total {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 16px;
+  color: var(--teal-900);
+}
+
+.purchase-form-footer button[type="submit"] {
+  background: var(--teal-800);
+  color: #f4efe4;
+  border: none;
+  padding: 9px 18px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.purchase-form-footer button[type="submit"]:hover {
+  background: var(--teal-700);
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.order-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.order-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.order-branch {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.order-status {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--paper-dim);
+  color: var(--ink-soft);
+}
+
+.order-status-received {
+  background: #e3ede7;
+  color: #2f6b4f;
+}
+
+.order-status-pending {
+  background: #f5e9d6;
+  color: var(--gold);
+}
+
+.order-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 13.5px;
+}
+
+.order-receive-btn {
+  width: auto;
+  padding: 7px 14px !important;
+  font-size: 13px !important;
+}
+
+/* ---------- Inventory page ---------- */
+
+.inventory-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.inventory-filters select,
+.inventory-filters input {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 13.5px;
+}
+
+.inventory-filters input {
+  flex: 1;
 }
 
 .product-form button {
@@ -574,248 +771,4 @@ h2 {
   .ledger {
     grid-template-columns: 1fr;
   }
-}
-/* ---------- Supabase live-data pages (CrudPage / Settings) ---------- */
-
-.main:has(.page-wide) {
-  max-width: 1200px;
-}
-
-.brand-logo {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  background: #fff;
-}
-
-.sidebar-avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.sidebar-user {
-  flex: 1;
-  min-width: 0;
-}
-
-.crud-form {
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  margin-bottom: 22px;
-}
-
-.crud-form-title {
-  font-weight: 600;
-  color: var(--teal-700);
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-
-.crud-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 12px 14px;
-}
-
-.crud-field {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-size: 12px;
-  color: var(--ink-soft);
-}
-
-.crud-field input,
-.crud-field select,
-.crud-field textarea,
-.auth-field select {
-  padding: 8px 9px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  font-size: 13.5px;
-  color: var(--ink);
-  background: #fff;
-  font-family: inherit;
-}
-
-.crud-field input:focus,
-.crud-field select:focus,
-.crud-field textarea:focus {
-  outline: none;
-  border-color: var(--teal-700);
-}
-
-.crud-field input:disabled {
-  background: var(--paper-dim);
-}
-
-.crud-field-wide {
-  grid-column: 1 / -1;
-}
-
-.crud-field-check {
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-  padding-top: 18px;
-}
-
-.crud-field-check input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--teal-700);
-}
-
-.crud-image {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.crud-image-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.crud-remove {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #a5312a;
-}
-
-.thumb {
-  width: 38px;
-  height: 38px;
-  object-fit: cover;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  display: block;
-}
-
-.thumb-lg {
-  width: 96px;
-  height: 96px;
-  object-fit: cover;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-}
-
-.thumb-empty {
-  background: var(--paper-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  color: var(--ink-soft);
-  text-align: center;
-  text-decoration: none;
-}
-
-.crud-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.btn-primary {
-  background: var(--teal-800);
-  color: #f4efe4;
-  border: none;
-  padding: 9px 18px;
-  border-radius: var(--radius);
-  font-size: 13.5px;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background: var(--teal-700);
-}
-
-.btn-primary:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-.btn-ghost {
-  background: none;
-  border: 1px solid var(--line);
-  color: var(--ink-soft);
-  padding: 9px 16px;
-  border-radius: var(--radius);
-  font-size: 13.5px;
-  cursor: pointer;
-}
-
-.crud-error {
-  margin-bottom: 16px;
-}
-
-.ok-msg {
-  color: var(--teal-700);
-  font-size: 13px;
-  margin: 8px 0 0;
-}
-
-.plain-fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-  min-width: 0;
-}
-
-.crud-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.crud-search {
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  font-size: 13.5px;
-  width: 100%;
-  max-width: 280px;
-}
-
-.crud-count {
-  color: var(--ink-soft);
-  font-size: 12.5px;
-}
-
-.table-scroll {
-  overflow-x: auto;
-}
-
-.row-actions {
-  white-space: nowrap;
-  text-align: right;
-}
-
-.row-edit {
-  background: none;
-  border: none;
-  color: var(--teal-700);
-  font-size: 12.5px;
-  cursor: pointer;
-  padding: 0;
-  margin-right: 12px;
-}
-
-.row-editing td {
-  background: rgba(169, 122, 44, 0.08);
 }
