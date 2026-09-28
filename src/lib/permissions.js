@@ -1,5 +1,6 @@
 const ROLE_PERMISSIONS = {
   organization_owner: [
+    "dashboard",
     "products",
     "purchases",
     "sales",
@@ -13,6 +14,7 @@ const ROLE_PERMISSIONS = {
     "spec",
   ],
   owner: [
+    "dashboard",
     "products",
     "purchases",
     "sales",
@@ -26,6 +28,7 @@ const ROLE_PERMISSIONS = {
     "spec",
   ],
   admin: [
+    "dashboard",
     "products",
     "purchases",
     "sales",
@@ -39,6 +42,7 @@ const ROLE_PERMISSIONS = {
     "spec",
   ],
   manager: [
+    "dashboard",
     "products",
     "purchases",
     "sales",
