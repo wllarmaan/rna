@@ -1,20 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient.js";
 import { useAuth } from "../lib/AuthContext.jsx";
 
+const CURRENCIES = ["USD", "SOS", "KES", "ETB", "DJF"];
+
 export default function Onboarding() {
-  const { profile, createOrganization, signOut } = useAuth();
+  const { profile, profileLoading, refreshProfile, signOut } = useAuth();
   const [name, setName] = useState("");
   const [currency, setCurrency] = useState("USD");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
+  // Haddii qof la casuumay (invitation), si otomaatig ah ugu biir organization-ka.
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.rpc("claim_invitation");
+      if (data === true) await refreshProfile();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Horeba organization buu haystaa — ha isku daynin onboarding mar labaad.
+  if (!profileLoading && profile?.organization_id) {
+    return <Navigate to="/" replace />;
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setBusy(true);
-    const { error } = await createOrganization(name, currency);
+
+    const { error } = await supabase.rpc("create_organization_and_join", {
+      org_name: name,
+      org_currency: currency,
+    });
+
+    if (error) {
+      setError(error.message);
+      setBusy(false);
+      return;
+    }
+
+    await refreshProfile();
     setBusy(false);
-    if (error) setError(error.message);
   }
 
   return (
@@ -23,40 +52,46 @@ export default function Onboarding() {
         <div className="auth-brand">
           <span className="brand-mark">M</span>
           <div>
-            <div className="brand-name">Ku soo dhawow, {profile?.full_name}</div>
-            <div className="brand-sub">Samee organization-kaaga (farmashiye / xarun)</div>
+            <div className="brand-name">Medvora</div>
+            <div className="brand-sub">Samee organization-kaaga</div>
           </div>
         </div>
 
+        <p className="lede" style={{ margin: 0 }}>
+          Waa markaaga hore ee aad soo gasho. Geli magaca ganacsigaaga si aan
+          kuu diyaarino xisaabtaada iyo branch-gaaga koowaad si otomaatig ah.
+        </p>
+
         <label className="auth-field">
-          Magaca organization-ka
+          Magaca Organization-ka
           <input
             type="text"
+            placeholder="Tusaale: Farmasiyada Al-Shifa"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Tusaale: Farmasiyada Hodan"
             required
           />
         </label>
 
         <label className="auth-field">
-          Lacagta (currency)
+          Lacagta la isticmaalo
           <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
-            <option value="USD">USD</option>
-            <option value="SOS">SOS</option>
-            <option value="ETB">ETB</option>
-            <option value="KES">KES</option>
+            {CURRENCIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
           </select>
         </label>
 
         {error && <p className="auth-error">{error}</p>}
 
         <button className="auth-submit" type="submit" disabled={busy}>
-          {busy ? "…" : "Samee oo sii wad"}
+          {busy ? "…" : "Samee organization-ka"}
         </button>
 
         <button type="button" className="auth-switch" onClick={signOut}>
-          Ka bax
+          Ka bax akoonkan
         </button>
       </form>
     </div>

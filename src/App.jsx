@@ -13,14 +13,12 @@ import Sales from "./pages/Sales.jsx";
 import Inventory from "./pages/Inventory.jsx";
 import Categories from "./pages/Categories.jsx";
 import Customers from "./pages/Customers.jsx";
-import CustomerStatement from "./pages/CustomerStatement.jsx";
 import Suppliers from "./pages/Suppliers.jsx";
-import SupplierStatement from "./pages/SupplierStatement.jsx";
 import Branches from "./pages/Branches.jsx";
 import Expenses from "./pages/Expenses.jsx";
 import Login from "./pages/Login.jsx";
 import Onboarding from "./pages/Onboarding.jsx";
-
+import Team from "./pages/Team.jsx";
 export default function App() {
   return (
     <AuthProvider>
@@ -53,11 +51,10 @@ export default function App() {
           <Route path="inventory" element={<Inventory />} />
           <Route path="categories" element={<Categories />} />
           <Route path="customers" element={<Customers />} />
-          <Route path="customers/:id" element={<CustomerStatement />} />
           <Route path="suppliers" element={<Suppliers />} />
-          <Route path="suppliers/:id" element={<SupplierStatement />} />
           <Route path="branches" element={<Branches />} />
           <Route path="expenses" element={<Expenses />} />
+          <Route path="team" element={<Team />} />
         </Route>
       </Routes>
     </AuthProvider>

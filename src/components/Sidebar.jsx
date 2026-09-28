@@ -91,6 +91,7 @@ export default function Sidebar() {
               { to: "/suppliers", label: "Suppliers" },
               { to: "/branches", label: "Branches" },
               { to: "/expenses", label: "Expenses" },
+              { to: "/team", label: "Team / Users" },
             ].map((item) => (
               <li key={item.to}>
                 <NavLink
