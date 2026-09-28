@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient.js";
 import { useAuth } from "../lib/AuthContext.jsx";
+import { canAccess } from "../lib/permissions.js";
 
 function startOfTodayISO() {
   const d = new Date();
@@ -11,6 +12,7 @@ function startOfTodayISO() {
 
 export default function Home() {
   const { profile } = useAuth();
+  const role = profile?.role;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -101,33 +103,46 @@ export default function Home() {
       {error && <p className="auth-error">{error}</p>}
 
       <dl className="stat-row" style={{ flexWrap: "wrap", rowGap: 20 }}>
-        <div className="stat">
-          <dt>Iibka maanta</dt>
-          <dd>{todaySalesTotal.toFixed(2)}</dd>
-        </div>
-        <div className="stat">
-          <dt>Tirada iibabka maanta</dt>
-          <dd>{todaySalesCount}</dd>
-        </div>
-        <div className="stat">
-          <dt>Kharashaadka maanta</dt>
-          <dd>{todayExpensesTotal.toFixed(2)}</dd>
-        </div>
-        <div className="stat">
-          <dt>Alaab low-stock ah</dt>
-          <dd style={lowStockCount > 0 ? { color: "#a5312a" } : undefined}>{lowStockCount}</dd>
-        </div>
-        <div className="stat">
-          <dt>Receivables (macaamiisha nagu leeyihiin)</dt>
-          <dd>{receivables.toFixed(2)}</dd>
-        </div>
-        <div className="stat">
-          <dt>Payables (aan ku leenahay suppliers)</dt>
-          <dd>{payables.toFixed(2)}</dd>
-        </div>
+        {canAccess(role, "sales_summary") && (
+          <>
+            <div className="stat">
+              <dt>Iibka maanta</dt>
+              <dd>{todaySalesTotal.toFixed(2)}</dd>
+            </div>
+            <div className="stat">
+              <dt>Tirada iibabka maanta</dt>
+              <dd>{todaySalesCount}</dd>
+            </div>
+          </>
+        )}
+        {canAccess(role, "expenses_summary") && (
+          <div className="stat">
+            <dt>Kharashaadka maanta</dt>
+            <dd>{todayExpensesTotal.toFixed(2)}</dd>
+          </div>
+        )}
+        {canAccess(role, "stock_summary") && (
+          <div className="stat">
+            <dt>Alaab low-stock ah</dt>
+            <dd style={lowStockCount > 0 ? { color: "#a5312a" } : undefined}>{lowStockCount}</dd>
+          </div>
+        )}
+        {canAccess(role, "balances_summary") && (
+          <>
+            <div className="stat">
+              <dt>Receivables (macaamiisha nagu leeyihiin)</dt>
+              <dd>{receivables.toFixed(2)}</dd>
+            </div>
+            <div className="stat">
+              <dt>Payables (aan ku leenahay suppliers)</dt>
+              <dd>{payables.toFixed(2)}</dd>
+            </div>
+          </>
+        )}
       </dl>
 
       <div className="ledger" style={{ marginTop: 12 }}>
+        {canAccess(role, "sales") && (
         <section className="ledger-group">
           <h2>Iibabka ugu dambeeyay</h2>
           {recentSales.length === 0 ? (
@@ -148,7 +163,9 @@ export default function Home() {
             </ol>
           )}
         </section>
+        )}
 
+        {canAccess(role, "purchases") && (
         <section className="ledger-group">
           <h2>Purchase orders ugu dambeeyay</h2>
           {recentPurchases.length === 0 ? (
@@ -167,6 +184,7 @@ export default function Home() {
             </ol>
           )}
         </section>
+        )}
       </div>
     </div>
   );

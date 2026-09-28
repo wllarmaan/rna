@@ -3,10 +3,13 @@ import { NavLink } from "react-router-dom";
 import { modules } from "../data/modules.js";
 import { groups, groupFor } from "../data/groups.js";
 import { useAuth } from "../lib/AuthContext.jsx";
+import { canAccess } from "../lib/permissions.js";
 
 export default function Sidebar() {
   const [query, setQuery] = useState("");
   const { profile, signOut } = useAuth();
+  const role = profile?.role;
+  const canSpec = canAccess(role, "spec");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -39,14 +42,16 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <input
-        className="sidebar-search"
-        type="text"
-        placeholder="Raadi module ama feature…"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        aria-label="Raadi modules"
-      />
+      {canSpec && (
+        <input
+          className="sidebar-search"
+          type="text"
+          placeholder="Raadi module ama feature…"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          aria-label="Raadi modules"
+        />
+      )}
 
       <nav className="sidebar-nav">
         <div className="nav-group">
@@ -64,17 +69,19 @@ export default function Sidebar() {
                 <span className="nav-title">Dashboard</span>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/spec"
-                className={({ isActive }) =>
-                  "nav-link" + (isActive ? " nav-link-active" : "")
-                }
-              >
-                <span className="nav-number">◆</span>
-                <span className="nav-title">Master Specification</span>
-              </NavLink>
-            </li>
+            {canSpec && (
+              <li>
+                <NavLink
+                  to="/spec"
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " nav-link-active" : "")
+                  }
+                >
+                  <span className="nav-number">◆</span>
+                  <span className="nav-title">Master Specification</span>
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -82,17 +89,19 @@ export default function Sidebar() {
           <div className="nav-group-label">Live data</div>
           <ul>
             {[
-              { to: "/products", label: "Products / Medicines" },
-              { to: "/purchases", label: "Purchasing & Stock" },
-              { to: "/sales", label: "Sales / POS" },
-              { to: "/inventory", label: "Inventory" },
-              { to: "/categories", label: "Categories" },
-              { to: "/customers", label: "Customers" },
-              { to: "/suppliers", label: "Suppliers" },
-              { to: "/branches", label: "Branches" },
-              { to: "/expenses", label: "Expenses" },
-              { to: "/team", label: "Team / Users" },
-            ].map((item) => (
+              { to: "/products", key: "products", label: "Products / Medicines" },
+              { to: "/purchases", key: "purchases", label: "Purchasing & Stock" },
+              { to: "/sales", key: "sales", label: "Sales / POS" },
+              { to: "/inventory", key: "inventory", label: "Inventory" },
+              { to: "/categories", key: "categories", label: "Categories" },
+              { to: "/customers", key: "customers", label: "Customers" },
+              { to: "/suppliers", key: "suppliers", label: "Suppliers" },
+              { to: "/branches", key: "branches", label: "Branches" },
+              { to: "/expenses", key: "expenses", label: "Expenses" },
+              { to: "/team", key: "team", label: "Team / Users" },
+            ]
+              .filter((item) => canAccess(role, item.key))
+              .map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
@@ -108,7 +117,8 @@ export default function Sidebar() {
           </ul>
         </div>
 
-        {[...byGroup.entries()].map(([label, mods]) =>
+        {canSpec &&
+          [...byGroup.entries()].map(([label, mods]) =>
           mods.length ? (
             <div className="nav-group" key={label}>
               <div className="nav-group-label">{label}</div>
