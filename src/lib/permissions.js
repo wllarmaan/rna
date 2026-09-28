@@ -1,5 +1,17 @@
-// Hubi in role-kaaga (Owner/Admin) uu leeyahay 'team'
 const ROLE_PERMISSIONS = {
+  organization_owner: [
+    "products",
+    "purchases",
+    "sales",
+    "inventory",
+    "categories",
+    "customers",
+    "suppliers",
+    "branches",
+    "expenses",
+    "team",
+    "spec",
+  ],
   owner: [
     "products",
     "purchases",
@@ -10,8 +22,8 @@ const ROLE_PERMISSIONS = {
     "suppliers",
     "branches",
     "expenses",
-    "team", // <-- Ku dar kan!
-    "spec"
+    "team",
+    "spec",
   ],
   admin: [
     "products",
@@ -23,9 +35,21 @@ const ROLE_PERMISSIONS = {
     "suppliers",
     "branches",
     "expenses",
-    "team" // <-- Ku dar kan!
+    "team",
+    "spec",
   ],
-  // ...
+  manager: [
+    "products",
+    "purchases",
+    "sales",
+    "inventory",
+    "categories",
+    "customers",
+    "suppliers",
+    "branches",
+    "expenses",
+    "team",
+  ],
 };
 
 export function canAccess(role, key) {
@@ -36,7 +60,15 @@ export function canAccess(role, key) {
 
 export function moduleKeyForPath(pathname) {
   if (pathname.startsWith("/products")) return "products";
-  if (pathname.startsWith("/team")) return "team"; // <-- Ku dar kan!
-  // ...
+  if (pathname.startsWith("/purchases")) return "purchases";
+  if (pathname.startsWith("/sales")) return "sales";
+  if (pathname.startsWith("/inventory")) return "inventory";
+  if (pathname.startsWith("/categories")) return "categories";
+  if (pathname.startsWith("/customers")) return "customers";
+  if (pathname.startsWith("/suppliers")) return "suppliers";
+  if (pathname.startsWith("/branches")) return "branches";
+  if (pathname.startsWith("/expenses")) return "expenses";
+  if (pathname.startsWith("/team")) return "team";
+  if (pathname.startsWith("/spec")) return "spec";
   return null;
 }
