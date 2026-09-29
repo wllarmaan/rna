@@ -1,6 +1,8 @@
+// src/data/modules.js
+
 // Auto-generated from the Medvora Master Specification.
-// Each module maps to one numbered section of the spec; items are the
-// discrete features/entities that belong to that module.
+// Each module maps to one numbered section of the spec;
+// items are the discrete features/entities that belong to that module.
 
 export const introText = `Waxaan kuu diyaariyay Master Specification daboolaya dhammaan qaybaha aasaasiga ah iyo kuwa enterprise-level ee Medvora u baahan yahay. Fadlan ogow in software weyn sida Medvora uu mar walba yeelan karo features cusub oo mustaqbalka lagu daro.`;
 
@@ -23,9 +25,10 @@ export const modules = [
       "Changelog",
       "License",
       "System constants",
-      "Feature flags"
-    ]
+      "Feature flags",
+    ],
   },
+
   {
     id: "technology-architecture",
     number: 2,
@@ -45,9 +48,10 @@ export const modules = [
       "Monitoring",
       "Backup",
       "Deployment",
-      "CI/CD"
-    ]
+      "CI/CD",
+    ],
   },
+
   {
     id: "multi-tenant-saas",
     number: 3,
@@ -65,9 +69,10 @@ export const modules = [
       "Branch-level permissions",
       "Data isolation",
       "Subscription limits",
-      "Usage tracking"
-    ]
+      "Usage tracking",
+    ],
   },
+
   {
     id: "authentication",
     number: 4,
@@ -90,9 +95,10 @@ export const modules = [
       "Login history",
       "Failed login attempts",
       "2FA/MFA",
-      "Security notifications"
-    ]
+      "Security notifications",
+    ],
   },
+
   {
     id: "users-roles",
     number: 5,
@@ -115,9 +121,10 @@ export const modules = [
       "Organization owner",
       "Super admin",
       "Permission matrix",
-      "Activity history"
-    ]
+      "Activity history",
+    ],
   },
+
   {
     id: "pharmacy",
     number: 6,
@@ -133,9 +140,10 @@ export const modules = [
       "Receipt settings",
       "Tax settings",
       "Currency",
-      "Payment methods"
-    ]
+      "Payment methods",
+    ],
   },
+
   {
     id: "medicine-product-master",
     number: 7,
@@ -168,9 +176,10 @@ export const modules = [
       "Minimum price",
       "Maximum price",
       "Reorder level",
-      "Product status"
-    ]
+      "Product status",
+    ],
   },
+
   {
     id: "medicine-regulatory-information",
     number: 8,
@@ -185,9 +194,10 @@ export const modules = [
       "Storage requirements",
       "Temperature requirements",
       "Special warnings",
-      "Product documentation"
-    ]
+      "Product documentation",
+    ],
   },
+
   {
     id: "inventory",
     number: 9,
@@ -211,9 +221,10 @@ export const modules = [
       "Returned stock",
       "Reserved stock",
       "Available stock",
-      "Stock valuation"
-    ]
+      "Stock valuation",
+    ],
   },
+
   {
     id: "purchasing",
     number: 10,
@@ -231,9 +242,10 @@ export const modules = [
       "Supplier credits",
       "Supplier statements",
       "Supplier debt",
-      "Purchase history"
-    ]
+      "Purchase history",
+    ],
   },
+
   {
     id: "sales-pos",
     number: 11,
@@ -259,9 +271,10 @@ export const modules = [
       "Sale return",
       "Exchange",
       "Refund",
-      "Sale history"
-    ]
+      "Sale history",
+    ],
   },
+
   {
     id: "payment-system",
     number: 12,
@@ -279,9 +292,10 @@ export const modules = [
       "Payment status",
       "Payment history",
       "Refunds",
-      "Cash drawer"
-    ]
+      "Cash drawer",
+    ],
   },
+
   {
     id: "customer-management",
     number: 13,
@@ -299,9 +313,10 @@ export const modules = [
       "Customer statement",
       "Purchase history",
       "Returns",
-      "Customer notes"
-    ]
+      "Customer notes",
+    ],
   },
+
   {
     id: "supplier-management",
     number: 14,
@@ -317,9 +332,10 @@ export const modules = [
       "Purchase history",
       "Returns",
       "Supplier statement",
-      "Supplier notes"
-    ]
+      "Supplier notes",
+    ],
   },
+
   {
     id: "debt-credit-management",
     number: 15,
@@ -335,13 +351,16 @@ export const modules = [
       "Overdue balances",
       "Aging",
       "Statements",
-      "Debt reports"
-    ]
+      "Debt reports",
+    ],
   },
+
   {
     id: "expenses",
     number: 16,
     title: "Expenses",
+    path: "/expenses",
+    icon: "Expenses",
     items: [
       "Expense categories",
       "Rent",
@@ -355,9 +374,10 @@ export const modules = [
       "Other expenses",
       "Expense approval",
       "Expense receipts",
-      "Expense reports"
-    ]
+      "Expense reports",
+    ],
   },
+
   {
     id: "accounting",
     number: 17,
@@ -377,9 +397,10 @@ export const modules = [
       "Closing period",
       "Ledger",
       "Journal",
-      "Trial balance"
-    ]
+      "Trial balance",
+    ],
   },
+
   {
     id: "profit-loss",
     number: 18,
@@ -396,9 +417,10 @@ export const modules = [
       "Daily P&L",
       "Weekly P&L",
       "Monthly P&L",
-      "Yearly P&L"
-    ]
+      "Yearly P&L",
+    ],
   },
+
   {
     id: "cash-management",
     number: 19,
@@ -414,9 +436,10 @@ export const modules = [
       "Cash transfers",
       "Closing cash",
       "Cash reconciliation",
-      "Cash drawer sessions"
-    ]
+      "Cash drawer sessions",
+    ],
   },
+
   {
     id: "prescription-management",
     number: 20,
@@ -433,9 +456,10 @@ export const modules = [
       "Prescription status",
       "Dispensing",
       "Partial dispensing",
-      "Prescription history"
-    ]
+      "Prescription history",
+    ],
   },
+
   {
     id: "patient-management",
     number: 21,
@@ -452,9 +476,10 @@ export const modules = [
       "Prescription history",
       "Laboratory history",
       "Notes",
-      "Documents"
-    ]
+      "Documents",
+    ],
   },
+
   {
     id: "laboratory-management",
     number: 22,
@@ -475,9 +500,10 @@ export const modules = [
       "Doctor",
       "Lab invoice",
       "Lab payment",
-      "Printable report"
-    ]
+      "Printable report",
+    ],
   },
+
   {
     id: "laboratory-tests",
     number: 23,
@@ -495,9 +521,10 @@ export const modules = [
       "Kidney tests",
       "Lipid profile",
       "Other configured tests",
-      "(Tests-ka waa configurable, si Medvora loogu dari karo tests cusub iyada oo aan code badan la beddelin.)"
-    ]
+      "Tests-ka waa configurable, si Medvora loogu dari karo tests cusub iyada oo aan code badan la beddelin.",
+    ],
   },
+
   {
     id: "clinic-healthcare",
     number: 24,
@@ -514,9 +541,10 @@ export const modules = [
       "Follow-up",
       "Medical notes",
       "Referral",
-      "Discharge"
-    ]
+      "Discharge",
+    ],
   },
+
   {
     id: "doctor-management",
     number: 25,
@@ -529,9 +557,10 @@ export const modules = [
       "Appointments",
       "Consultation history",
       "Prescriptions",
-      "Reports"
-    ]
+      "Reports",
+    ],
   },
+
   {
     id: "nurse-management",
     number: 26,
@@ -543,9 +572,10 @@ export const modules = [
       "Nursing notes",
       "Medication administration",
       "Care plans",
-      "Shift management"
-    ]
+      "Shift management",
+    ],
   },
+
   {
     id: "appointment-system",
     number: 27,
@@ -558,9 +588,10 @@ export const modules = [
       "Appointment status",
       "Reschedule",
       "Cancellation",
-      "Reminder"
-    ]
+      "Reminder",
+    ],
   },
+
   {
     id: "reports",
     number: 28,
@@ -582,9 +613,10 @@ export const modules = [
       "Staff performance",
       "Branch performance",
       "Lab report",
-      "Patient report"
-    ]
+      "Patient report",
+    ],
   },
+
   {
     id: "dashboard",
     number: 29,
@@ -603,9 +635,10 @@ export const modules = [
       "Recent sales",
       "Recent purchases",
       "Charts",
-      "KPIs"
-    ]
+      "KPIs",
+    ],
   },
+
   {
     id: "notifications",
     number: 30,
@@ -621,9 +654,10 @@ export const modules = [
       "Email",
       "SMS",
       "In-app notification",
-      "WhatsApp integration later"
-    ]
+      "WhatsApp integration later",
+    ],
   },
+
   {
     id: "document-management",
     number: 31,
@@ -638,9 +672,10 @@ export const modules = [
       "Attachments",
       "File permissions",
       "File storage",
-      "Download/preview"
-    ]
+      "Download/preview",
+    ],
   },
+
   {
     id: "returns",
     number: 32,
@@ -654,9 +689,10 @@ export const modules = [
       "Stock reversal",
       "Financial reversal",
       "Return reasons",
-      "Return approval"
-    ]
+      "Return approval",
+    ],
   },
+
   {
     id: "branch-management",
     number: 33,
@@ -670,9 +706,10 @@ export const modules = [
       "Branch expenses",
       "Branch transfers",
       "Branch reports",
-      "Branch permissions"
-    ]
+      "Branch permissions",
+    ],
   },
+
   {
     id: "stock-transfer",
     number: 34,
@@ -684,9 +721,10 @@ export const modules = [
       "Transfer approval",
       "Dispatch",
       "Receiving",
-      "Transfer history"
-    ]
+      "Transfer history",
+    ],
   },
+
   {
     id: "warehouse",
     number: 35,
@@ -700,9 +738,10 @@ export const modules = [
       "Receiving",
       "Dispatch",
       "Transfers",
-      "Inventory count"
-    ]
+      "Inventory count",
+    ],
   },
+
   {
     id: "barcode",
     number: 36,
@@ -714,9 +753,10 @@ export const modules = [
       "Product labels",
       "Batch barcode",
       "Receipt barcode",
-      "Prescription barcode"
-    ]
+      "Prescription barcode",
+    ],
   },
+
   {
     id: "invoice-system",
     number: 37,
@@ -730,9 +770,10 @@ export const modules = [
       "Invoice numbering",
       "Invoice status",
       "Paid/unpaid/partial",
-      "Printable PDF"
-    ]
+      "Printable PDF",
+    ],
   },
+
   {
     id: "receipt-system",
     number: 38,
@@ -744,9 +785,10 @@ export const modules = [
       "Customer statement",
       "Supplier statement",
       "A4 invoice",
-      "Thermal receipt"
-    ]
+      "Thermal receipt",
+    ],
   },
+
   {
     id: "search-filtering",
     number: 39,
@@ -762,9 +804,10 @@ export const modules = [
       "Date filtering",
       "Branch filtering",
       "Status filtering",
-      "Advanced filters"
-    ]
+      "Advanced filters",
+    ],
   },
+
   {
     id: "audit-security",
     number: 40,
@@ -778,9 +821,10 @@ export const modules = [
       "Permission changes",
       "Financial transaction logs",
       "IP/device logging where appropriate",
-      "Security events"
-    ]
+      "Security events",
+    ],
   },
+
   {
     id: "data-protection",
     number: 41,
@@ -798,9 +842,10 @@ export const modules = [
       "Rate limiting",
       "Secure headers",
       "Backup",
-      "Restore"
-    ]
+      "Restore",
+    ],
   },
+
   {
     id: "api",
     number: 42,
@@ -820,9 +865,10 @@ export const modules = [
       "Patient API",
       "Laboratory API",
       "Reports API",
-      "Notifications API"
-    ]
+      "Notifications API",
+    ],
   },
+
   {
     id: "frontend",
     number: 43,
@@ -843,9 +889,10 @@ export const modules = [
       "POS interface",
       "Inventory interface",
       "Reports",
-      "Settings"
-    ]
+      "Settings",
+    ],
   },
+
   {
     id: "ui-ux",
     number: 44,
@@ -862,9 +909,10 @@ export const modules = [
       "Error states",
       "Confirmation dialogs",
       "Toast messages",
-      "Consistent design system"
-    ]
+      "Consistent design system",
+    ],
   },
+
   {
     id: "settings",
     number: 45,
@@ -882,9 +930,10 @@ export const modules = [
       "Security",
       "Language",
       "Date/time",
-      "Number formats"
-    ]
+      "Number formats",
+    ],
   },
+
   {
     id: "localization",
     number: 46,
@@ -896,9 +945,10 @@ export const modules = [
       "Currency formatting",
       "Date formatting",
       "RTL/LTR",
-      "Translation system"
-    ]
+      "Translation system",
+    ],
   },
+
   {
     id: "saas-subscription",
     number: 47,
@@ -917,9 +967,10 @@ export const modules = [
       "Upgrade",
       "Downgrade",
       "Cancellation",
-      "Usage tracking"
-    ]
+      "Usage tracking",
+    ],
   },
+
   {
     id: "super-admin",
     number: 48,
@@ -933,9 +984,10 @@ export const modules = [
       "System logs",
       "Platform analytics",
       "Support tools",
-      "Feature flags"
-    ]
+      "Feature flags",
+    ],
   },
+
   {
     id: "analytics",
     number: 49,
@@ -950,9 +1002,10 @@ export const modules = [
       "Customer activity",
       "Supplier activity",
       "Branch comparison",
-      "Revenue analytics"
-    ]
+      "Revenue analytics",
+    ],
   },
+
   {
     id: "backup-recovery",
     number: 50,
@@ -966,9 +1019,10 @@ export const modules = [
       "Data export",
       "CSV export",
       "Excel export",
-      "PDF export"
-    ]
+      "PDF export",
+    ],
   },
+
   {
     id: "testing",
     number: 51,
@@ -984,9 +1038,10 @@ export const modules = [
       "Accounting tests",
       "Financial calculation tests",
       "Regression tests",
-      "Security tests"
-    ]
+      "Security tests",
+    ],
   },
+
   {
     id: "error-handling",
     number: 52,
@@ -1001,9 +1056,10 @@ export const modules = [
       "403",
       "500",
       "User-friendly messages",
-      "Developer logs"
-    ]
+      "Developer logs",
+    ],
   },
+
   {
     id: "performance",
     number: 53,
@@ -1017,9 +1073,10 @@ export const modules = [
       "API optimization",
       "Background tasks",
       "Large inventory handling",
-      "Large transaction handling"
-    ]
+      "Large transaction handling",
+    ],
   },
+
   {
     id: "deployment",
     number: 54,
@@ -1037,9 +1094,10 @@ export const modules = [
       "HTTPS/SSL",
       "Server configuration",
       "Database migration",
-      "Monitoring"
-    ]
+      "Monitoring",
+    ],
   },
+
   {
     id: "integrations",
     number: 55,
@@ -1054,9 +1112,10 @@ export const modules = [
       "Thermal printers",
       "A4 printers",
       "Accounting systems",
-      "External APIs"
-    ]
+      "External APIs",
+    ],
   },
+
   {
     id: "developer-documentation",
     number: 56,
@@ -1071,7 +1130,7 @@ export const modules = [
       "Deployment guide",
       "Troubleshooting",
       "Coding conventions",
-      "Architecture documentation"
-    ]
+      "Architecture documentation",
+    ],
   },
 ];
