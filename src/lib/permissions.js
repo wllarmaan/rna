@@ -1,5 +1,6 @@
 const ROLE_PERMISSIONS = {
   organization_owner: [
+    "",
     "dashboard",
     "products",
     "purchases",
@@ -14,6 +15,7 @@ const ROLE_PERMISSIONS = {
     "spec",
   ],
   owner: [
+    "",
     "dashboard",
     "products",
     "purchases",
@@ -28,6 +30,7 @@ const ROLE_PERMISSIONS = {
     "spec",
   ],
   admin: [
+    "",
     "dashboard",
     "products",
     "purchases",
@@ -42,6 +45,7 @@ const ROLE_PERMISSIONS = {
     "spec",
   ],
   manager: [
+    "",
     "dashboard",
     "products",
     "purchases",
@@ -63,6 +67,7 @@ export function canAccess(role, key) {
 }
 
 export function moduleKeyForPath(pathname) {
+  if (!pathname || pathname === "/") return "dashboard";
   if (pathname.startsWith("/products")) return "products";
   if (pathname.startsWith("/purchases")) return "purchases";
   if (pathname.startsWith("/sales")) return "sales";
