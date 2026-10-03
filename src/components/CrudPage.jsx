@@ -4,13 +4,15 @@ import { supabase } from "../lib/supabaseClient.js";
 import { useAuth } from "../lib/AuthContext.jsx";
 import { uploadMedia, deleteMedia } from "../lib/storage.js";
 
-function initialForm(fields) {
+```js
+function initialForm(fields = []) {
   const f = {};
   fields.forEach((field) => {
     f[field.name] = field.type === "checkbox" ? false : field.default ?? "";
   });
   return f;
 }
+```
 
 function FieldInput({ field, value, onChange, relationOptions }) {
   if (field.type === "select") {
