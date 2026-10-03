@@ -1,15 +1,36 @@
+/* ============================================================================
+   MEDVORA DESIGN SYSTEM — "Foox & Khadiidh" (Frankincense & Indigo)
+   A warm sand/paper base (frankincense resin, raw cotton) with a deep
+   indigo ink (the indigo-dyed cloth of the Somali coast trade) and an
+   amber/frankincense accent. Variable NAMES below are historical
+   (--teal-*, --gold) but now carry this indigo/amber palette — don't let
+   the names confuse you when reading values.
+   ============================================================================ */
+/* ============================================================================
+   MEDVORA DESIGN SYSTEM — teal/blue palette (user-supplied)
+   Base four: #F2EFE7 (paper) · #9ACBD0 (soft teal) · #48A6A7 (teal accent)
+   · #2973B2 (blue). The two dark navy tones below are derived from the
+   blue so body text and the sidebar have enough contrast — the palette
+   itself only supplied light/mid tones. Variable NAMES are historical
+   (--teal-*, --gold) but now hold this teal/blue palette.
+   ============================================================================ */
 :root {
-  --paper: #faf8f3;
-  --paper-dim: #f2efe6;
-  --ink: #1e2b28;
-  --ink-soft: #4a5a56;
-  --line: #ddd6c6;
-  --teal-900: #0f2422;
-  --teal-800: #16332f;
-  --teal-700: #234e4a;
-  --gold: #a97a2c;
-  --gold-soft: #c99a52;
+  --paper: #f2efe7;
+  --paper-dim: #e7e1d2;
+  --ink: #15314a;
+  --ink-soft: #4f6672;
+  --line: #d6e4e3;
+  --teal-900: #13293d;
+  --teal-800: #1c3e59;
+  --teal-700: #2973b2;
+  --gold: #48a6a7;
+  --gold-soft: #9acbd0;
+  --on-dark: #eaf4f3;
+  --on-dark-soft: #9acbd0;
+  --on-dark-dim: #6fa3a4;
   --radius: 3px;
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", ui-sans-serif, "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -26,7 +47,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: ui-sans-serif, "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -34,7 +55,7 @@ body {
 
 h1,
 h2 {
-  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--teal-900);
@@ -52,7 +73,7 @@ h2 {
   width: 280px;
   flex-shrink: 0;
   background: var(--teal-900);
-  color: #dfe7e3;
+  color: var(--on-dark-soft);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -87,13 +108,13 @@ h2 {
 .brand-name {
   font-family: ui-serif, Georgia, serif;
   font-size: 16px;
-  color: #f4efe4;
+  color: var(--on-dark);
   letter-spacing: 0.02em;
 }
 
 .brand-sub {
   font-size: 11.5px;
-  color: #93a49e;
+  color: var(--on-dark-dim);
   margin-top: 1px;
 }
 
@@ -103,12 +124,12 @@ h2 {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius);
-  color: #f4efe4;
+  color: var(--on-dark);
   font-size: 13px;
 }
 
 .sidebar-search::placeholder {
-  color: #7d8f89;
+  color: var(--on-dark-dim);
 }
 
 .sidebar-search:focus {
@@ -133,18 +154,18 @@ h2 {
 
 .sidebar-user-name {
   font-size: 13px;
-  color: #f4efe4;
+  color: var(--on-dark);
 }
 
 .sidebar-user-org {
   font-size: 11px;
-  color: #7d8f89;
+  color: var(--on-dark-dim);
 }
 
 .sidebar-signout {
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #cdd9d4;
+  color: var(--on-dark-soft);
   font-size: 12px;
   padding: 6px 10px;
   border-radius: var(--radius);
@@ -164,7 +185,7 @@ h2 {
 .nav-group-label {
   font-size: 10.5px;
   letter-spacing: 0.08em;
-  color: #7d8f89;
+  color: var(--on-dark-dim);
   padding: 0 10px 6px;
 }
 
@@ -181,25 +202,25 @@ h2 {
   padding: 6px 10px;
   border-radius: var(--radius);
   text-decoration: none;
-  color: #cdd9d4;
+  color: var(--on-dark-soft);
   font-size: 13px;
   line-height: 1.35;
 }
 
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.06);
-  color: #f4efe4;
+  color: var(--on-dark);
 }
 
 .nav-link-active {
   background: rgba(169, 122, 44, 0.18);
-  color: #f4efe4;
+  color: var(--on-dark);
   box-shadow: inset 2px 0 0 var(--gold-soft);
 }
 
 .nav-number {
   font-variant-numeric: tabular-nums;
-  color: #7d8f89;
+  color: var(--on-dark-dim);
   font-size: 11.5px;
   flex-shrink: 0;
 }
@@ -270,7 +291,7 @@ h2 {
 
 .stat dd {
   margin: 0;
-  font-family: ui-serif, Georgia, serif;
+  font-family: var(--font-display);
   font-size: 28px;
   color: var(--teal-900);
 }
@@ -454,7 +475,7 @@ h2 {
   border-radius: var(--radius);
   font-size: 14px;
   color: var(--ink);
-  background: #fff;
+  background: var(--paper-dim);
 }
 
 .auth-field input:focus,
@@ -471,7 +492,7 @@ h2 {
 
 .auth-submit {
   background: var(--teal-800);
-  color: #f4efe4;
+  color: var(--on-dark);
   border: none;
   padding: 11px;
   border-radius: var(--radius);
@@ -516,6 +537,8 @@ h2 {
   border-radius: var(--radius);
   font-size: 13.5px;
   flex: 1 1 160px;
+  background: var(--paper-dim);
+  color: var(--ink);
 }
 
 .checkbox-field {
@@ -548,12 +571,15 @@ h2 {
   margin-bottom: 12px;
 }
 
-.purchase-form-row select {
+.purchase-form-row select,
+.purchase-form-row input {
   flex: 1;
   padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-size: 13.5px;
+  background: var(--paper-dim);
+  color: var(--ink);
 }
 
 .purchase-lines {
@@ -575,6 +601,8 @@ h2 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-size: 13.5px;
+  background: var(--paper-dim);
+  color: var(--ink);
 }
 
 .purchase-line select {
@@ -614,14 +642,14 @@ h2 {
 }
 
 .purchase-total {
-  font-family: ui-serif, Georgia, serif;
+  font-family: var(--font-display);
   font-size: 16px;
   color: var(--teal-900);
 }
 
 .purchase-form-footer button[type="submit"] {
   background: var(--teal-800);
-  color: #f4efe4;
+  color: var(--on-dark);
   border: none;
   padding: 9px 18px;
   border-radius: var(--radius);
@@ -674,7 +702,7 @@ h2 {
 }
 
 .order-status-pending {
-  background: #f5e9d6;
+  background: #dceeee;
   color: var(--gold);
 }
 
@@ -706,6 +734,8 @@ h2 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   font-size: 13.5px;
+  background: var(--paper-dim);
+  color: var(--ink);
 }
 
 .inventory-filters input {
@@ -714,7 +744,7 @@ h2 {
 
 .product-form button {
   background: var(--teal-800);
-  color: #f4efe4;
+  color: var(--on-dark);
   border: none;
   padding: 9px 18px;
   border-radius: var(--radius);
@@ -768,7 +798,7 @@ h2 {
 }
 
 .balance-hero {
-  font-family: ui-serif, Georgia, serif;
+  font-family: var(--font-display);
   font-size: 32px;
   color: var(--teal-900);
 }

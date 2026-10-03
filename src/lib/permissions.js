@@ -57,7 +57,25 @@ const ROLE_PERMISSIONS = {
     "branches",
     "expenses",
     "team",
+    "spec",
   ],
+  pharmacist: [
+    "dashboard",
+    "products",
+    "categories",
+    "purchases",
+    "sales",
+    "inventory",
+    "customers",
+    "suppliers",
+  ],
+  pharmacy_technician: ["dashboard", "products", "categories", "sales", "inventory", "customers"],
+  cashier: ["dashboard", "sales", "customers"],
+  accountant: ["dashboard", "customers", "suppliers", "expenses"],
+  lab_technician: ["dashboard"],
+  nurse: ["dashboard"],
+  doctor: ["dashboard"],
+  staff: ["dashboard"],
 };
 
 export function canAccess(role, key) {
@@ -68,6 +86,7 @@ export function canAccess(role, key) {
 
 export function moduleKeyForPath(pathname) {
   if (!pathname || pathname === "/") return "dashboard";
+  if (pathname.startsWith("/module")) return "spec"; // Master Specification detail pages
   if (pathname.startsWith("/products")) return "products";
   if (pathname.startsWith("/purchases")) return "purchases";
   if (pathname.startsWith("/sales")) return "sales";

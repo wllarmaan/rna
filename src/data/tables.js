@@ -57,6 +57,7 @@ export const tableConfigs = {
     nav: "Customers",
     table: "customers",
     title: "Customers",
+    statementPath: "customers",
     image: { urlCol: "photo_url", pathCol: "photo_path", folder: "customers", label: "Sawirka macmiilka" },
     fields: [
       { name: "name", label: "Magaca", type: "text", required: true },
@@ -79,6 +80,7 @@ export const tableConfigs = {
     nav: "Suppliers",
     table: "suppliers",
     title: "Suppliers",
+    statementPath: "suppliers",
     image: { urlCol: "logo_url", pathCol: "logo_path", folder: "suppliers", label: "Logo" },
     fields: [
       { name: "name", label: "Magaca", type: "text", required: true },
