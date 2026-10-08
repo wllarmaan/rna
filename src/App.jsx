@@ -1,10 +1,12 @@
+
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+
 import { AuthProvider } from "./lib/AuthContext.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import RequireOrganization from "./components/RequireOrganization.jsx";
 import Layout from "./components/Layout.jsx";
-import Home from "./pages/Home.jsx";
+
 import Dashboard from "./pages/Dashboard.jsx";
 import ModuleDetail from "./pages/ModuleDetail.jsx";
 import Products from "./pages/Products.jsx";
@@ -22,11 +24,16 @@ import Login from "./pages/Login.jsx";
 import Onboarding from "./pages/Onboarding.jsx";
 import Team from "./pages/Team.jsx";
 
-export default function App() {
+function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/login" element={<Login />} />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
         <Route
           path="/onboarding"
           element={
@@ -35,6 +42,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/"
           element={
@@ -45,23 +53,85 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Home />} />
-          <Route path="spec" element={<Dashboard />} />
-          <Route path="module/:id" element={<ModuleDetail />} />
-          <Route path="products" element={<Products />} />
-          <Route path="purchases" element={<Purchases />} />
-          <Route path="sales" element={<Sales />} />
-          <Route path="inventory" element={<Inventory />} />
-          <Route path="categories" element={<Categories />} />
-          <Route path="customers" element={<Customers />} />
-          <Route path="customers/:id" element={<CustomerStatement />} />
-          <Route path="suppliers" element={<Suppliers />} />
-          <Route path="suppliers/:id" element={<SupplierStatement />} />
-          <Route path="branches" element={<Branches />} />
-          <Route path="expenses" element={<Expenses />} />
-          <Route path="team" element={<Team />} />
+          <Route
+            index
+            element={<Dashboard />}
+          />
+
+          <Route
+            path="dashboard"
+            element={<Dashboard />}
+          />
+
+          <Route
+            path="module/:id"
+            element={<ModuleDetail />}
+          />
+
+          <Route
+            path="products"
+            element={<Products />}
+          />
+
+          <Route
+            path="purchases"
+            element={<Purchases />}
+          />
+
+          <Route
+            path="sales"
+            element={<Sales />}
+          />
+
+          <Route
+            path="inventory"
+            element={<Inventory />}
+          />
+
+          <Route
+            path="categories"
+            element={<Categories />}
+          />
+
+          <Route
+            path="customers"
+            element={<Customers />}
+          />
+
+          <Route
+            path="customers/:id"
+            element={<CustomerStatement />}
+          />
+
+          <Route
+            path="suppliers"
+            element={<Suppliers />}
+          />
+
+          <Route
+            path="suppliers/:id"
+            element={<SupplierStatement />}
+          />
+
+          <Route
+            path="branches"
+            element={<Branches />}
+          />
+
+          <Route
+            path="expenses"
+            element={<Expenses />}
+          />
+
+          <Route
+            path="team"
+            element={<Team />}
+          />
         </Route>
+
       </Routes>
     </AuthProvider>
   );
 }
+
+export default App;
