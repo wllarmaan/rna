@@ -118,9 +118,12 @@ export function canAccess(role, key) {
     return false;
   }
 
-  const allowedKeys = ROLE_PERMISSIONS[role] || [];
+  const normalizedRole = String(role).trim().toLowerCase();
+  const normalizedKey = String(key).trim().toLowerCase();
 
-  return allowedKeys.includes(key);
+  const allowedKeys = ROLE_PERMISSIONS[normalizedRole] || [];
+
+  return allowedKeys.includes(normalizedKey);
 }
 
 export function moduleKeyForPath(pathname) {
@@ -128,55 +131,57 @@ export function moduleKeyForPath(pathname) {
     return "dashboard";
   }
 
-  if (pathname.startsWith("/dashboard")) {
+  const path = pathname.toLowerCase();
+
+  if (path.startsWith("/dashboard")) {
     return "dashboard";
   }
 
-  if (pathname.startsWith("/module")) {
+  if (path.startsWith("/module")) {
     return "spec";
   }
 
-  if (pathname.startsWith("/products")) {
+  if (path.startsWith("/products")) {
     return "products";
   }
 
-  if (pathname.startsWith("/purchases")) {
+  if (path.startsWith("/purchases")) {
     return "purchases";
   }
 
-  if (pathname.startsWith("/sales")) {
+  if (path.startsWith("/sales")) {
     return "sales";
   }
 
-  if (pathname.startsWith("/inventory")) {
+  if (path.startsWith("/inventory")) {
     return "inventory";
   }
 
-  if (pathname.startsWith("/categories")) {
+  if (path.startsWith("/categories")) {
     return "categories";
   }
 
-  if (pathname.startsWith("/customers")) {
+  if (path.startsWith("/customers")) {
     return "customers";
   }
 
-  if (pathname.startsWith("/suppliers")) {
+  if (path.startsWith("/suppliers")) {
     return "suppliers";
   }
 
-  if (pathname.startsWith("/branches")) {
+  if (path.startsWith("/branches")) {
     return "branches";
   }
 
-  if (pathname.startsWith("/expenses")) {
+  if (path.startsWith("/expenses")) {
     return "expenses";
   }
 
-  if (pathname.startsWith("/team")) {
+  if (path.startsWith("/team")) {
     return "team";
   }
 
-  if (pathname.startsWith("/spec")) {
+  if (path.startsWith("/spec")) {
     return "spec";
   }
 
