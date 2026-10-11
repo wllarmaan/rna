@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
@@ -121,6 +120,11 @@ function App() {
           <Route
             path="expenses"
             element={<Expenses />}
+          />
+
+          <Route
+            path="reports"
+            element={<Reports />}
           />
 
           <Route

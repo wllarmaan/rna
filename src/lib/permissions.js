@@ -11,6 +11,7 @@ const ROLE_PERMISSIONS = {
     "suppliers",
     "branches",
     "expenses",
+    "reports",
     "team",
     "spec",
   ],
@@ -27,6 +28,7 @@ const ROLE_PERMISSIONS = {
     "suppliers",
     "branches",
     "expenses",
+    "reports",
     "team",
     "spec",
   ],
@@ -43,6 +45,7 @@ const ROLE_PERMISSIONS = {
     "suppliers",
     "branches",
     "expenses",
+    "reports",
     "team",
     "spec",
   ],
@@ -59,6 +62,7 @@ const ROLE_PERMISSIONS = {
     "suppliers",
     "branches",
     "expenses",
+    "reports",
     "team",
     "spec",
   ],
@@ -94,6 +98,7 @@ const ROLE_PERMISSIONS = {
     "customers",
     "suppliers",
     "expenses",
+    "reports",
   ],
 
   lab_technician: [
@@ -175,6 +180,10 @@ export function moduleKeyForPath(pathname) {
 
   if (path.startsWith("/expenses")) {
     return "expenses";
+  }
+
+  if (path.startsWith("/reports")) {
+    return "reports";
   }
 
   if (path.startsWith("/team")) {

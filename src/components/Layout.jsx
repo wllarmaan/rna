@@ -6,6 +6,7 @@ import {
   Pill,
   ShoppingCart,
   Package,
+  Package2,
   Tags,
   Users,
   Truck,
@@ -15,6 +16,7 @@ import {
   LogOut,
   ChevronRight,
   Sparkles,
+  BarChart3,
 } from "lucide-react";
 
 import { useAuth } from "../lib/AuthContext.jsx";
@@ -41,6 +43,12 @@ const navigation = [
         to: "/products",
         key: "products",
         icon: Pill,
+      },
+      {
+        label: "Purchasing & Stock",
+        to: "/purchases",
+        key: "purchases",
+        icon: Package2,
       },
       {
         label: "Sales / POS",
@@ -95,6 +103,12 @@ const navigation = [
         to: "/expenses",
         key: "expenses",
         icon: Receipt,
+      },
+      {
+        label: "Reports",
+        to: "/reports",
+        key: "reports",
+        icon: BarChart3,
       },
       {
         label: "Team / Users",
