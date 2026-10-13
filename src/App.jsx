@@ -19,6 +19,7 @@ import Suppliers from "./pages/Suppliers.jsx";
 import SupplierStatement from "./pages/SupplierStatement.jsx";
 import Branches from "./pages/Branches.jsx";
 import Expenses from "./pages/Expenses.jsx";
+import Reports from "./pages/Reports.jsx";
 import Login from "./pages/Login.jsx";
 import Onboarding from "./pages/Onboarding.jsx";
 import Team from "./pages/Team.jsx";
